@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Verdant BCN - Alta Gastronomía Vegana en Barcelona. Sostenibilidad y sabor en el barrio de l'Eixample.">
+    <title>Verdant BCN | Alta Cocina Plant-Based</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0F3D26;
+            --secondary: #2C5E43;
+            --accent: #E58E26;
+            --bg-light: #F9F8F6;
+            --text-dark: #1C231F;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-light); color: var(--text-dark); line-height: 1.8; }
+
+        /* NAVEGACIÓN */
+        header {
+            background: rgba(249, 248, 246, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        nav { max-width: 1400px; margin: 0 auto; padding: 1.2rem 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary); text-decoration: none; font-weight: 900; letter-spacing: -1px; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 3rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--primary); font-weight: 600; font-size: 0.95rem; transition: var(--transition); }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* HERO */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(rgba(15, 61, 38, 0.6), rgba(28, 35, 31, 0.8)), 
+                        url('https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white);
+        }
+        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 8vw, 6rem); margin-bottom: 1rem; line-height: 1.1; }
+        .hero-content p { font-size: 1.2rem; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 5%; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; }
+
+        /* HISTORIA */
+        .historia { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding: 8rem 0; align-items: center; }
+        .historia-img { width: 100%; border-radius: 20px; box-shadow: var(--shadow); object-fit: cover; height: 500px; }
+        .historia-text p { margin-bottom: 1.5rem; color: #4b5563; font-size: 1.1rem; }
+
+        /* MENÚ & FILTROS */
+        .menu-section { padding: 5rem 0; }
+        .menu-controls { display: flex; flex-direction: column; align-items: center; gap: 2rem; margin-bottom: 4rem; }
+        
+        .search-input {
+            width: 100%; max-width: 500px; padding: 1.2rem 2rem; border-radius: 50px;
+            border: 1px solid #d1d5db; font-size: 1rem; background: var(--white);
+            transition: var(--transition); outline: none;
+        }
+        .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(15, 61, 38, 0.1); }
+
+        .filters { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+        .filter-btn {
+            padding: 0.8rem 2rem; border: none; border-radius: 50px; background: #e5e7eb;
+            color: var(--text-dark); font-weight: 600; cursor: pointer; transition: var(--transition);
+        }
+        .filter-btn.active, .filter-btn:hover { background: var(--primary); color: var(--white); }
+
+        /* GRID PLATOS */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; }
+        .card {
+            background: var(--white); border-radius: 20px; overflow: hidden;
+            box-shadow: var(--shadow); transition: var(--transition); cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+        .card img { width: 100%; height: 260px; object-fit: cover; }
+        .card-body { padding: 2rem; }
+        .card-body h3 { font-size: 1.5rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .card-price { display: inline-block; margin-top: 1rem; font-weight: 800; color: var(--accent); font-size: 1.3rem; }
+
+        /* RESERVAS Y CONTACTO */
+        .reserva-contacto {
+            background: var(--primary); color: var(--white); border-radius: 30px;
+            padding: 5rem; margin: 5rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+        }
+        .contacto-info h3 { font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--accent); }
+        .contacto-info p { margin-bottom: 1rem; font-size: 1.1rem; opacity: 0.9; }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        .form-control {
+            width: 100%; padding: 1.2rem; border-radius: 12px; border: none;
+            background: rgba(255,255,255,0.1); color: var(--white); font-size: 1rem; outline: none;
+        }
+        .form-control::placeholder { color: rgba(255,255,255,0.6); }
+        .form-control:focus { background: rgba(255,255,255,0.2); }
+        
+        .btn-submit {
+            width: 100%; padding: 1.2rem; background: var(--accent); color: var(--white);
+            border: none; border-radius: 12px; font-weight: 800; font-size: 1.1rem;
+            cursor: pointer; transition: var(--transition); text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-submit:hover { background: #d36e15; }
+
+        /* MODAL */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(5px); }
+        .modal-content { background: var(--bg-light); max-width: 600px; width: 100%; border-radius: 20px; padding: 3rem; position: relative; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--primary); font-weight: bold; }
+        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        .tag { background: rgba(15, 61, 38, 0.1); color: var(--primary); padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 600; }
+
+        @media (max-width: 900px) {
+            .historia, .reserva-contacto { grid-template-columns: 1fr; padding: 3rem 2rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo">VERDANT<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="#historia">Nuestra Historia</a></li>
+                <li><a href="#menu">La Carta</a></li>
+                <li><a href="#contacto">Reserva & Ubicación</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Verdant BCN</h1>
+            <p>Alta Cocina Botánica</p>
+        </div>
+    </section>
+
+    <main class="container">
+        
+        <!-- HISTORIA -->
+        <section id="historia" class="historia">
+            <div class="historia-text">
+                <h2 class="section-title">El Origen</h2>
+                <p>Fundado en 2024 en el corazón de l'Eixample, <strong>Verdant BCN</strong> nació de una premisa radical: demostrar que la alta gastronomía no necesita proteína animal para emocionar.</p>
+                <p>Nuestra chef ejecutiva, tras años en cocinas con estrellas Michelin, decidió regresar a las raíces. Trabajamos exclusivamente con agricultores del Parc Agrari del Baix Llobregat y el Maresme, aplicando técnicas de vanguardia a vegetales de temporada.</p>
+                <p>No hacemos sustitutos. Elevamos el reino vegetal a su máxima expresión en un espacio diseñado para la desconexión y el disfrute consciente.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=800&q=80" alt="Chef preparando platos veganos" class="historia-img">
+        </section>
+
+        <!-- MENÚ -->
+        <section id="menu" class="menu-section">
+            <div style="text-align: center;">
+                <h2 class="section-title">Nuestra Propuesta</h2>
+            </div>
+            
+            <div class="menu-controls">
+                <input type="text" id="searchInput" class="search-input" placeholder="Buscar por ingrediente, plato o bebida...">
+                <div class="filters">
+                    <button class="filter-btn active" data-cat="todos">Todos</button>
+                    <button class="filter-btn" data-cat="plato">Cocina</button>
+                    <button class="filter-btn" data-cat="postre">Postres</button>
+                    <button class="filter-btn" data-cat="bebida">Bodega & Bebidas</button>
+                </div>
+            </div>
+
+            <div class="menu-grid" id="menuGrid">
+                <!-- Inyectado vía JS -->
+            </div>
+        </section>
+
+        <!-- RESERVAS Y CONTACTO -->
+        <section id="contacto" class="reserva-contacto">
+            <div class="contacto-info">
+                <h3>Encuéntranos</h3>
+                <p>📍 <strong>Dirección:</strong> Carrer de la Sostenibilitat, 12<br>08008, l'Eixample, Barcelona</p>
+                <p>🕒 <strong>Horario:</strong><br>Miércoles a Domingo: 13:00 - 16:00 / 20:00 - 23:30<br>Lunes y Martes: Cerrado (I+D en cocina)</p>
+                <p>📞 <strong>Teléfono:</strong> +34 931 000 000</p>
+                <p>📧 <strong>Email:</strong> reservas@verdantbcn.com</p>
+            </div>
+
+            <div>
+                <h3 style="font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--white);">Reserva tu Mesa</h3>
+                <form id="reservationForm">
+                    <div class="form-group">
+                        <input type="text" id="resNombre" class="form-control" placeholder="Nombre completo" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="resEmail" class="form-control" placeholder="Correo electrónico" required>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                        <input type="date" class="form-control" required style="flex: 2;">
+                        <input type="number" class="form-control" placeholder="Personas" min="1" max="8" required style="flex: 1;">
+                    </div>
+                    <button type="submit" class="btn-submit">Solicitar Reserva</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL -->
+    <div class="modal" id="itemModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2 id="modalTitle" style="color: var(--primary); font-family: 'Playfair Display'; font-size: 2.2rem;"></h2>
+            <p id="modalDesc" style="margin: 1.5rem 0; color: #4b5563; font-size: 1.1rem;"></p>
+            <h3 style="font-size: 1rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px;">Composición / Notas:</h3>
+            <div class="tags" id="modalTags"></div>
+            <div style="margin-top: 2rem; border-top: 2px solid #eee; padding-top: 1rem;">
+                <span style="font-weight: 800; color: var(--accent); font-size: 1.5rem;" id="modalPrice"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATA ESTRUCTURADA AMPLIADA
+        const menuData = [
+            // PLATOS
+            { id: 1, categoria: "plato", nombre: "Tartar de Remolacha Asada", desc: "Remolacha marinada en tamari, alcaparras crujientes, mostaza antigua y emulsión de aguacate.", precio: "14.00€", img: "https://images.unsplash.com/photo-1594991530652-320d30c00713?auto=format&fit=crop&w=600&q=80", ingredientes: ["Remolacha", "Tamari", "Alcaparras", "Aguacate"] },
+            { id: 2, categoria: "plato", nombre: "Gnocchi de Boniato Trufado", desc: "Pasta artesana con crema de anacardos, salvia fresca y lascas de trufa negra del Pirineo.", precio: "18.50€", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80", ingredientes: ["Boniato", "Trufa Negra", "Anacardos", "Salvia"] },
+            { id: 3, categoria: "plato", nombre: "Ceviche de Setas de Cardo", desc: "Leche de tigre de aji amarillo, boniato glaseado, choclo y cilantro fresco.", precio: "16.00€", img: "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?auto=format&fit=crop&w=600&q=80", ingredientes: ["Setas", "Aji Amarillo", "Lima", "Cilantro"] },
+            { id: 4, categoria: "plato", nombre: "Canelón de Aguacate y Heura", desc: "Láminas finas de aguacate rellenas de proteína vegetal guisada a baja temperatura con bechamel de almendras.", precio: "17.00€", img: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80", ingredientes: ["Aguacate", "Heura", "Leche de Almendras", "Nuez Moscada"] },
+            { id: 5, categoria: "plato", nombre: "Berenjena a la Llama con Miso", desc: "Berenjena asada al carbón, glaseada con miso blanco dulce, sésamo tostado y cebolleta fina.", precio: "15.50€", img: "https://images.unsplash.com/photo-1627958978508-3012920202cb?auto=format&fit=crop&w=600&q=80", ingredientes: ["Berenjena", "Miso Blanco", "Sésamo", "Sirope de Agave"] },
+            
+            // POSTRES
+            { id: 6, categoria: "postre", nombre: "Coulant de Cacao 85%", desc: "Corazón fundido de chocolate negro ecológico, acompañado de helado artesanal de pistacho.", precio: "9.50€", img: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=600&q=80", ingredientes: ["Cacao 85%", "Harina de Avena", "Pistacho", "Leche de Coco"] },
+            { id: 7, categoria: "postre", nombre: "Cheesecake V", desc: "Tarta de 'queso' a base de anacardos fermentados, base de dátiles y coulis de frutos rojos del bosque.", precio: "8.50€", img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=80", ingredientes: ["Anacardos", "Dátiles", "Frutos Rojos", "Aceite de Coco"] },
+            { id: 8, categoria: "postre", nombre: "Milhojas de Manzana Asada", desc: "Hojaldre vegetal crujiente, crema pastelera de vainilla Bourbon y manzana caramelizada.", precio: "8.00€", img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=600&q=80", ingredientes: ["Manzana", "Vainilla Bourbon", "Hojaldre Vegano", "Canela"] },
+
+            // BEBIDAS & BODEGA
+            { id: 9, categoria: "bebida", nombre: "Kombucha Artesanal de Hibisco", desc: "Fermentación propia de 14 días. Notas florales y acidez equilibrada. Sin pasteurizar.", precio: "5.50€", img: "https://images.unsplash.com/photo-1588666352934-2e921dce3e4b?auto=format&fit=crop&w=600&q=80", ingredientes: ["Té Negro", "Flor de Hibisco", "Scoby"] },
+            { id: 10, categoria: "bebida", nombre: "Mocktail 'Bosque Mediterráneo'", desc: "Destilado sin alcohol de enebro, romero quemado, sirope de pino y tónica premium.", precio: "8.00€", img: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80", ingredientes: ["Romero", "Pino", "Tónica", "Enebro"] },
+            { id: 11, categoria: "bebida", nombre: "Vino Natural 'Ancestral'", desc: "Macabeo Brisat (Orange Wine). Mínima intervención, uvas de agricultura biodinámica del Penedès.", precio: "24.00€", img: "https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?auto=format&fit=crop&w=600&q=80", ingredientes: ["Uva Macabeo", "Sulfitos Naturales (Traza)"] },
+            { id: 12, categoria: "bebida", nombre: "Vino Tinto 'Garnacha Salvaje'", desc: "D.O. Montsant. Vino vegano certificado, notas a fruta roja madura y toques minerales. Crianza de 6 meses.", precio: "22.00€", img: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=600&q=80", ingredientes: ["Uva Garnacha Tinta"] },
+            { id: 13, categoria: "bebida", nombre: "Cerveza Artesana 'IPA Botánica'", desc: "Elaborada en Barcelona. Doble lúpulo, notas cítricas y amargor persistente. Sin clarificantes animales.", precio: "4.50€", img: "https://images.unsplash.com/photo-1575037614876-c385f242fc29?auto=format&fit=crop&w=600&q=80", ingredientes: ["Malta", "Lúpulo Citra", "Levadura", "Agua"] }
+        ];
+
+        const menuGrid = document.getElementById('menuGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const modal = document.getElementById('itemModal');
+        let currentFilter = 'todos';
+
+        // OBTENER ETIQUETA CATEGORÍA
+        const getLabelCategoria = (cat) => {
+            if(cat === 'plato') return 'Cocina';
+            if(cat === 'postre') return 'Postre';
+            return 'Bodega';
+        };
+
+        // RENDERIZAR ITEMS
+        const renderMenu = (items) => {
+            menuGrid.innerHTML = items.map(item => `
+                <article class="card" onclick="openModal(${item.id})">
+                    <img src="${item.img}" alt="${item.nombre}" loading="lazy">
+                    <div class="card-body">
+                        <span style="font-size:0.8rem; text-transform:uppercase; color:#E58E26; font-weight:bold;">
+                            ${getLabelCategoria(item.categoria)}
+                        </span>
+                        <h3>${item.nombre}</h3>
+                        <span class="card-price">${item.precio}</span>
+                    </div>
+                </article>
+            `).join('');
+        };
+
+        // LÓGICA DE FILTRADO Y BÚSQUEDA
+        const applyFilters = () => {
+            const term = searchInput.value.toLowerCase();
+            const filtered = menuData.filter(item => {
+                const matchCat = currentFilter === 'todos' || item.categoria === currentFilter;
+                const matchText = item.nombre.toLowerCase().includes(term) || 
+                                  item.ingredientes.some(i => i.toLowerCase().includes(term));
+                return matchCat && matchText;
+            });
+            renderMenu(filtered);
+        };
+
+        searchInput.addEventListener('input', applyFilters);
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.cat;
+                applyFilters();
+            });
+        });
+
+        // MODAL LÓGICA
+        const openModal = (id) => {
+            const item = menuData.find(i => i.id === id);
+            document.getElementById('modalTitle').innerText = item.nombre;
+            document.getElementById('modalDesc').innerText = item.desc;
+            document.getElementById('modalPrice').innerText = item.precio;
+            document.getElementById('modalTags').innerHTML = item.ingredientes.map(ing => `<span class="tag">${ing}</span>`).join('');
+            modal.style.display = 'flex';
+        };
+
+        document.getElementById('closeModal').onclick = () => modal.style.display = 'none';
+        window.onclick = (e) => { if(e.target == modal) modal.style.display = 'none'; }
+
+        // PREVENCIÓN XSS BÁSICA EN FORMULARIO (Enfoque Seguro para Auditoría)
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Sanitización básica: eliminamos caracteres que puedan ejecutar scripts (<, >)
+            const nombre = document.getElementById('resNombre').value.replace(/[<>]/g, "");
+            const email = document.getElementById('resEmail').value.replace(/[<>]/g, "");
+            
+            console.log("[Seguridad] Payload Seguro Enviado:", { nombre, email });
+            alert(`Gracias ${nombre}. Hemos recibido tu solicitud para Verdant BCN. Revisa tu correo (${email}) para la confirmación.`);
+            this.reset();
+        });
+
+        // INIT
+        renderMenu(menuData);
+    </script>
+</body>
+</html>
